@@ -7,9 +7,5 @@ namespace Tic_tac_toe.Entities
         public Guid GameId { get; set; }
         public Game Game { get; set; }
         public char Sign { get; set; }
-        public Player(string userName)
-        {
-            UserName = userName;
-        }
     }
 }

@@ -20,12 +20,10 @@ namespace Tic_tac_toe.Controllers
         [Produces("application/json")]// СДЕЛАТЬ ТО ЧТО В ПОСЛЕДНЕМ CHAT GPT
         public async Task<IActionResult> Register([FromBody] Player player)
         {
-            var user = new Player(player.UserName);
-
-            if (!ModelState.IsValid)
+            var user = new Player()
             {
-                return BadRequest(ModelState);
-            }
+                UserName = player.UserName
+            };
 
             var result = await _userManager.CreateAsync(user);
 
