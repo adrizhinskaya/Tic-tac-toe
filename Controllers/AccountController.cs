@@ -2,35 +2,36 @@
 using Tic_tac_toe.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
+using Tic_tac_toe.Data;
 
 namespace Tic_tac_toe.Controllers
 {
-    public class AccountController : ControllerBase
+    public class AccountController : Controller
     {
-        private readonly UserManager<Player> _userManager;
-
-        public AccountController(UserManager<Player> userManager)
+        private readonly AppDbContext _appDbContext;
+        public AccountController(AppDbContext appDbContext)
         {
-            _userManager = userManager;
+            _appDbContext = appDbContext;
         }
 
         [HttpPost]
         [Route("register")]
         [AllowAnonymous]
-        [Produces("application/json")]// СДЕЛАТЬ ТО ЧТО В ПОСЛЕДНЕМ CHAT GPT
+        [Produces("application/json")]
         public async Task<IActionResult> Register([FromBody] Player player)
         {
             var user = new Player()
             {
-                UserName = player.UserName
+                UserName = player.UserName,
             };
 
-            var result = await _userManager.CreateAsync(user);
+            await _appDbContext.Players.AddAsync(user);
+            await _appDbContext.SaveChangesAsync();
 
-            if (!result.Succeeded)
-            {
-                return GetErrorResult(result);
-            }
+            //if (!result.Succeeded)
+            //{
+            //    return GetErrorResult(result);
+            //}
 
             return Ok($"Вы успешно зарегистрировались. Ваш ID - {user.Id} ./nДля начала игры и поиска второго игрока перейдите по адресу\n\\api/join\\ и отправьте ваш ID");
         }

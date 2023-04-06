@@ -5,8 +5,9 @@ using Tic_tac_toe.Entities;
 
 namespace Tic_tac_toe.Data
 {
-    public class AppDbContext : IdentityDbContext<Player>
+    public class AppDbContext : DbContext
     {
+        public DbSet<Player> Players { get; set; }
         public DbSet<Game> Games { get; set; }
         public AppDbContext(DbContextOptions<AppDbContext> options)
         : base(options)

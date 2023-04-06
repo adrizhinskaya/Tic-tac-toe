@@ -11,17 +11,7 @@ builder.Services.AddRazorPages();
 builder.Services.AddDbContext<AppDbContext>(options =>
 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-builder.Services.AddIdentity<Player, IdentityRole>()
-    .AddEntityFrameworkStores<AppDbContext>()
-    .AddDefaultTokenProviders();
-
-builder.Services.ConfigureApplicationCookie(options =>
-{
-    options.LoginPath = "/Account/Register";
-    options.AccessDeniedPath = "/Account/AccessDenied";
-});
-
-builder.Services.AddMvc();
+//builder.Services.AddMvc();
 builder.Services.AddControllers();
 
 var app = builder.Build();
